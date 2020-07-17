@@ -7,6 +7,7 @@ public class EmptyShaft extends JFrame{
 	private double tcLength; //length of temporary casing (ft.)
 	private double tsLength; //total shaft length (ft.)
 	private double shaftDiameter; //TEMPORARY VARIABLE, will calculate this later on based on volume
+	private double[] truckVolumes;
 	
 	public EmptyShaft(double refElevation, double tcDiameter, double tcLength, double tsLength, double shaftDiameter) { //constructor
 		super("Empty Drilled Shaft"); //Titles the drawing window
@@ -49,13 +50,31 @@ public class EmptyShaft extends JFrame{
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() { //run method
-            	int refEl = Integer.parseInt(JOptionPane.showInputDialog("Enter reference elevation (ft): "));
-            	int tcDiam = Integer.parseInt(JOptionPane.showInputDialog("Enter temporary casing diameter (in): "));
-            	int tcLen = Integer.parseInt(JOptionPane.showInputDialog("Enter temporary casing length (ft): "));
-            	int tsLen = Integer.parseInt(JOptionPane.showInputDialog("Enter total shaft length (ft): "));
-            	int sDiam = Integer.parseInt(JOptionPane.showInputDialog("Enter shaft diameter (in): "));
-            	EmptyShaft es = new EmptyShaft(refEl, tcDiam, tcLen, tsLen, sDiam); //Creates object of class
-            	es.setVisible(true); //Shows the final drawing
+            	JTextField refEl = new JTextField(5);
+                JTextField tcDiam = new JTextField(5);
+                JTextField tcLen = new JTextField(5);
+                JTextField tsLen = new JTextField(5);
+                JTextField sDiam = new JTextField(5); //Creates textboxes for each variable
+
+                JPanel myPanel = new JPanel(new GridLayout(0,4)); //Allows placement of textboxes in grid
+                myPanel.add(new JLabel("Reference Elevation (ft):")); //Displays prompts in panel
+                myPanel.add(refEl); //Adds corresponding textbox
+                myPanel.add(new JLabel("Temporary Casing Diameter (in):"));
+                myPanel.add(tcDiam);
+                myPanel.add(new JLabel("Temporary Casing Length (ft):"));
+                myPanel.add(tcLen);
+                myPanel.add(new JLabel("Total Shaft Length (ft):"));
+                myPanel.add(tsLen);
+                myPanel.add(new JLabel("Shaft Diameter (in):"));
+                myPanel.add(sDiam);
+
+                int result = JOptionPane.showConfirmDialog(null, myPanel, 
+                         "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
+            	
+                if (result == JOptionPane.OK_OPTION) {
+                	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
+                	es.setVisible(true); //Shows the final drawing
+                }
             }
         });
 	}
