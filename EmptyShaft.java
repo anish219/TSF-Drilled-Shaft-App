@@ -1,13 +1,15 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class EmptyShaft extends JFrame{
+public class EmptyShaft extends JFrame {
 	private double refElevation; //reference elevation (ft.)
 	private double tcDiameter; //temporary casing inner diameter (in.)
 	private double tcLength; //length of temporary casing (ft.)
 	private double tsLength; //total shaft length (ft.)
 	private double shaftDiameter; //TEMPORARY VARIABLE, will calculate this later on based on volume
 	private double[] truckVolumes;
+	private double vCasing;
+	private double vShaft;
 	
 	public EmptyShaft(double refElevation, double tcDiameter, double tcLength, double tsLength, double shaftDiameter) { //constructor
 		super("Empty Drilled Shaft"); //Titles the drawing window
@@ -30,18 +32,35 @@ public class EmptyShaft extends JFrame{
 	void drawDiagram(Graphics g) {
         Graphics2D g2d = (Graphics2D) g; //Graphics object used to set colors and draw the actual rectangle
         Stroke tempCasing = new BasicStroke(6f); //Creates a BasicStroke object for the temporary casing
-        g2d.setColor(Color.RED); //Sets drawing color to red
+        g2d.setColor(Color.BLUE); //Sets drawing color to red
         g2d.setStroke(tempCasing); //Sets the stroke to draw the temporary casing
-        g2d.drawRect(500 - (int) (tcDiameter*1.5), 50, (int) (tcDiameter*3), (int) (tcLength*36)); //Draws the temporary casing at (x, y, width, height)
+        //g2d.drawRect(500 - (int) (tcDiameter*1.5), 50, (int) (tcDiameter*3), (int) (tcLength*36)); //Draws the temporary casing at (x, y, width, height)
+        g2d.drawRect(50, 50, (int) (tcDiameter*3), (int) (tcLength*36)); //Draws the temporary casing at (x, y, width, height)
         
         Stroke shaft = new BasicStroke(6f); //Creates a new BasicStroke object for the shaft
-     	g2d.setColor(Color.GREEN); //Sets drawing color to green
+        g2d.setColor(Color.BLACK); //Sets drawing color to black
     	g2d.setStroke(shaft); //Sets the stroke to draw the shaft
-        g2d.drawRect(500 - (int) (shaftDiameter*1.5), 50 + (int) (tcLength*36), (int) (shaftDiameter*3), (int) ((tsLength - tcLength)*36)); //Draws the shaft below the temporary casing
+        //g2d.drawRect(500 - (int) (shaftDiameter*1.5), 50 + (int) (tcLength*36), (int) (shaftDiameter*3), (int) ((tsLength - tcLength)*36)); //Draws the shaft below the temporary casing
+    	g2d.drawRect(50 + (int) ((tcDiameter - shaftDiameter)*1.5), 50 + (int) (tcLength*36), (int) (shaftDiameter*3), (int) ((tsLength - tcLength)*36)); //Draws the shaft below the temporary casing
+    	
+    	g2d.setFont(new Font("Serif", Font.BOLD, 12)); //Font settings
+    	g2d.drawString(new Double(refElevation).toString(), 10, 50); //Displays reference elevation
+    	g2d.drawString(new Double(refElevation - tcLength).toString(), 10, (int) (50 + tcLength * 36)); //Displays elevation at bottom of casing
+    	g2d.drawString(new Double(refElevation - tsLength).toString(), 10, (int) (50 + tsLength * 36)); //Displays elevations at bottom of shaft
+    	
+    	g2d.setFont(new Font("Serif", Font.PLAIN, 12)); //Font settings
+    	g2d.drawString("Casing Inner Diameter (in): " + new Double(tcDiameter).toString(), (int) (60 + tcDiameter * 3), 60);
+    	g2d.drawString("Volume Coefficient (cy/ft): " + new Double(d2vCE(tcDiameter)).toString(), (int) (60 + tcDiameter * 3), 75);
+    	g2d.drawString("Theoretical Volume (cy): " + new Double(d2vCE(tcDiameter) * tcLength).toString(), (int) (60 + tcDiameter * 3), 90);
+    	g2d.drawString("Shaft Diameter (in): " + new Double(shaftDiameter).toString(), 60 + (int) ((tcDiameter + shaftDiameter)*1.5), 70 + (int) tcLength * 36);
+    	g2d.drawString("Volume Coefficient (cy/ft): " + new Double(d2vCE(shaftDiameter)).toString(), 60 + (int) ((tcDiameter + shaftDiameter)*1.5), 85 + (int) tcLength * 36);
+    	g2d.drawString("Theoretical Volume (cy): " + new Double(d2vCE(shaftDiameter) * (tsLength - tcLength)).toString(), 60 + (int) ((tcDiameter + shaftDiameter)*1.5), 100 + (int) tcLength * 36);
+    	g2d.drawString("Total Volume (cy): " + new Double(d2vCE(tcDiameter) * tcLength + d2vCE(shaftDiameter) * (tsLength - tcLength)).toString(), 60 + (int) ((tcDiameter + shaftDiameter)*1.5), 50 + (int) tsLength * 36); //Displays all requested details
+    	
 	}
 	
 	public void paint(Graphics g) {
-        super.paint(g);
+        super.paint(g); //Calls JFrame paint method
         drawDiagram(g); //Draws the diagram when called
 	}
 	
