@@ -10,3 +10,7 @@ public class FillShaft extends JFrame {
 	private double[] truckVolumes;
 	private double vCasing;
 	private double vShaft;
+	
+	
+	
+}
