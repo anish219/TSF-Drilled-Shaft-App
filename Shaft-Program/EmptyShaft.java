@@ -15,7 +15,7 @@ public class EmptyShaft extends JFrame {
 	public EmptyShaft(double refElevation, double tcDiameter, double tcLength, double tsLength, double shaftDiameter) { //constructor
 		super("Empty Drilled Shaft"); //Titles the drawing window
         getContentPane().setBackground(Color.WHITE); //Makes window background white
-        setSize(1000, 1000); //Makes drawing window 1000x1000 pixels
+        setSize(hOffset + (int) (tcDiameter*in2pix) + 300, vOffset + (int) (tsLength*ft2pix) + 20); //Makes drawing window 1000x1000 pixels
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Finishes running program when the drawing window is closed
         setLocationRelativeTo(null);
         
