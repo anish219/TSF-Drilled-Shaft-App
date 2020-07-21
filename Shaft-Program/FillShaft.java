@@ -9,7 +9,8 @@ public class FillShaft extends JFrame {
 		super("Filling Drilled Shaft"); //Titles the drawing window
         getContentPane().setBackground(Color.WHITE); //Makes window background white
         setSize(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix) + 300, Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) + 20); //Makes drawing window 1000x1000 pixels
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Finishes running program when the drawing window is closed
+        //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Finishes running program when the drawing window is closed
         setLocationRelativeTo(null);
         
         JTextField volume = new JTextField(0);
