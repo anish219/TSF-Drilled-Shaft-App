@@ -13,7 +13,7 @@ public class ShaftExecute{
                 JTextField tsLen = new JTextField(0);
                 JTextField sDiam = new JTextField(0); //Creates textboxes for each variable
 
-                JPanel myPanel = new JPanel(new GridLayout(0,4)); //Allows placement of textboxes in grid
+                JPanel myPanel = new JPanel(new GridLayout(5,0)); //Allows placement of textboxes in grid
                 myPanel.add(new JLabel("Reference Elevation (ft):")); //Displays prompts in panel
                 myPanel.add(refEl); //Adds corresponding textbox
                 myPanel.add(new JLabel("Temporary Casing Diameter (in):"));
@@ -30,7 +30,8 @@ public class ShaftExecute{
             	
                 if (result == JOptionPane.OK_OPTION) {
                 	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
-                	es.setVisible(true); //Shows the final drawing
+                	FillShaft fs = new FillShaft();
+                	fs.setVisible(true);
                 }
             }
         });
