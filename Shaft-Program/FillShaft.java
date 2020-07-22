@@ -2,9 +2,6 @@ import java.awt.*;
 import javax.swing.*;
 
 public class FillShaft extends JFrame {
-	private double vPlaced;
-	private double d2Concrete;
-	
 	public FillShaft() { //constructor
 		super("Filling Drilled Shaft"); //Titles the drawing window
         getContentPane().setBackground(Color.WHITE); //Makes window background white
@@ -24,7 +21,7 @@ public class FillShaft extends JFrame {
                 "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
    	
         if (result == JOptionPane.OK_OPTION) {
-		vPlaced = Double.parseDouble(volume.getText());
+		Commands.vPlaced = Double.parseDouble(volume.getText());
 		//Commands.truckVolumes.add(new Double(vPlaced));
 		Commands.currentDepth = Double.parseDouble(depth.getText());
         }
@@ -32,11 +29,23 @@ public class FillShaft extends JFrame {
 	
 	void drawDiagram(Graphics g) {
         Graphics2D g2d = (Graphics2D) g; //Graphics object used to set colors and draw the actual rectangle
-        Commands.drawCasing(g2d);
+        Commands.drawGround(g2d);
         Commands.drawShaft(g2d);
         Commands.drawElevation(g2d);
         Commands.drawLabels(g2d);
-        Commands.fillShaft(g2d, Commands.currentDepth);
+        g2d.setColor(Color.LIGHT_GRAY);
+        if(Commands.currentDepth<=Commands.previousDepth-Commands.vol2Length(Commands.vPlaced)){
+            Commands.fillShaft(g2d, Commands.currentDepth);//Actual depth
+            g2d.setColor(Color.BLUE);
+            Commands.fillShaft(g2d, Commands.previousDepth-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
+        }
+        else {
+            g2d.setColor(Color.BLUE);
+            Commands.fillShaft(g2d, Commands.previousDepth-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
+            g2d.setColor(Color.LIGHT_GRAY);
+            Commands.fillShaft(g2d, Commands.currentDepth);//Actual depth
+        }
+        Commands.writeValues(g2d);
 	}
 	
 	public void paint(Graphics g) {

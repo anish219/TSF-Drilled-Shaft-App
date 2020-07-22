@@ -19,7 +19,7 @@ public class EmptyShaft extends JFrame {
 	
 	void drawDiagram(Graphics g) {
         Graphics2D g2d = (Graphics2D) g; //Graphics object used to set colors and draw the actual rectangle
-        Commands.drawCasing(g2d);
+        Commands.drawGround(g2d);
         Commands.drawShaft(g2d);
         Commands.drawElevation(g2d);
         Commands.drawLabels(g2d);
