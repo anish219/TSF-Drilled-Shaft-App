@@ -1,6 +1,8 @@
 import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Commands extends JFrame {
 	public static double refElevation; //reference elevation (ft.)
@@ -9,14 +11,21 @@ public class Commands extends JFrame {
 	public static double tsLength; //total shaft length (ft.)
 	public static double shaftDiameter; //TEMPORARY VARIABLE, will calculate this later on based on volume
 	public static double currentDepth;
-	public static double previousDepth = 15; //SOMEHOW ASSIGN TSLENGTH WITHOUT ERRORS
+	public static double previousDepth;
 	public static double vPlaced;
-	public static ArrayList<Double> truckVolumes;
+	public static double[] truckVolumes;
 	public static double truckNumber;
 	public static final int ft2pix = 36;
 	public static final int in2pix = 3;
 	public static final int hOffset = 50;
 	public static final int vOffset = 50;
+	
+	static class Action implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			FillShaft fs = new FillShaft();
+        	fs.setVisible(true);
+		}
+	}
 	
 	public static double d2vCE(double diameter) { //returns diameter to volume coefficient based on input diameter
 		return Math.PI/3 * Math.pow(diameter/72, 2); //diameter (in.), CE (yd^3/ft)
@@ -33,7 +42,6 @@ public class Commands extends JFrame {
 	}
 	
 	public static void fillShaft(Graphics2D g2d, double depth) {
-		//g2d.setColor(Color.LIGHT_GRAY); //Sets drawing color to black		
 		if(depth >= tcLength) {
 			//g2d.drawRect(500 - (int) (shaftDiameter*in2pix/2), vOffset + (int) (tcLength*ft2pix), (int) (shaftDiameter*in2pix), (int) ((tsLength - tcLength)*ft2pix)); //Draws the shaft below the temporary casing
 			g2d.fillRect(hOffset + (int) ((tcDiameter - shaftDiameter)*in2pix/2), vOffset + (int) (depth*ft2pix), (int) (shaftDiameter*in2pix), (int) ((tsLength - depth)*ft2pix)); //Draws the shaft below the temporary casing
@@ -47,7 +55,7 @@ public class Commands extends JFrame {
 	
 	public static void drawGround(Graphics2D g2d) {
 		g2d.setColor(new Color(235,179,128));
-		if(refElevation>0) {
+		if(refElevation>=0) {
 			g2d.fillRect(0, vOffset + (int) (refElevation*ft2pix), hOffset + (int) (tcDiameter*in2pix) + 300, (int) ((tsLength-refElevation)*ft2pix) + 20);
 		}
 		else {

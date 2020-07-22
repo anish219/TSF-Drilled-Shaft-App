@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.*;
 
 public class ShaftExecute{
@@ -32,13 +34,12 @@ public class ShaftExecute{
                          "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
             	
                 if (result == JOptionPane.OK_OPTION) {
-                	//Commands.truckNumber = Double.parseDouble(tNum.getText());
+                	Commands.previousDepth = Double.parseDouble(tsLen.getText());
                 	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
-                	//es.setVisible(true);
-                	
+                	es.setVisible(true);
                 	//for(int i = 0; i < Commands.truckNumber; i++) {
-                		FillShaft fs = new FillShaft();
-                    	fs.setVisible(true);
+                		//FillShaft fs = new FillShaft();
+                    	//fs.setVisible(true);
                 	//}
                 }
             }

@@ -25,6 +25,15 @@ public class FillShaft extends JFrame {
 		//Commands.truckVolumes.add(new Double(vPlaced));
 		Commands.currentDepth = Double.parseDouble(depth.getText());
         }
+        
+        JButton b = new JButton("Add truck");
+        JPanel panel = new JPanel();
+        panel.add(b);
+        panel.setLayout(null);
+        add(panel);
+        b.setBounds(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix) + 200, Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) - 40, 80, 20);
+        b.addActionListener(new Commands.Action());
+        
 	}
 	
 	void drawDiagram(Graphics g) {
