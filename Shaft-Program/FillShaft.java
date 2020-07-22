@@ -61,6 +61,4 @@ public class FillShaft extends JFrame {
         super.paint(g); //Calls JFrame paint method
         drawDiagram(g); //Draws the diagram when called
 	}
-                
-              //new object created for each iteration of input and diagram output for each fill
 }

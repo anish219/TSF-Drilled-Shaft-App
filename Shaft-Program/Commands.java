@@ -24,6 +24,7 @@ public class Commands extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			FillShaft fs = new FillShaft();
         	fs.setVisible(true);
+        	//Commands.previousDepth = new Double(Commands.currentDepth).doubleValue();
 		}
 	}
 	
@@ -43,12 +44,10 @@ public class Commands extends JFrame {
 	
 	public static void fillShaft(Graphics2D g2d, double depth) {
 		if(depth >= tcLength) {
-			//g2d.drawRect(500 - (int) (shaftDiameter*in2pix/2), vOffset + (int) (tcLength*ft2pix), (int) (shaftDiameter*in2pix), (int) ((tsLength - tcLength)*ft2pix)); //Draws the shaft below the temporary casing
 			g2d.fillRect(hOffset + (int) ((tcDiameter - shaftDiameter)*in2pix/2), vOffset + (int) (depth*ft2pix), (int) (shaftDiameter*in2pix), (int) ((tsLength - depth)*ft2pix)); //Draws the shaft below the temporary casing
 		}
 		else {
-			//g2d.drawRect(500 - (int) (shaftDiameter*in2pix/2), vOffset + (int) (tcLength*ft2pix), (int) (shaftDiameter*in2pix), (int) ((tsLength - tcLength)*ft2pix)); //Draws the shaft below the temporary casing
-			g2d.fillRect(hOffset + (int) ((tcDiameter - shaftDiameter)*in2pix/2), vOffset + (int) (tcLength*ft2pix), (int) (shaftDiameter*in2pix), (int) ((tsLength - tcLength)*ft2pix)); //Draws the shaft below the temporary casing
+			g2d.fillRect(hOffset + (int) ((tcDiameter - shaftDiameter)*in2pix/2), vOffset + (int) (tcLength*ft2pix) - 5, (int) (shaftDiameter*in2pix), (int) ((tsLength - tcLength)*ft2pix)+5); //Draws the shaft below the temporary casing
 			g2d.fillRect(hOffset, vOffset + (int) (depth*ft2pix), (int) (tcDiameter*in2pix), (int) ((tcLength - depth)*ft2pix)); //Draws the shaft below the temporary casing
 		}
 	}
@@ -83,6 +82,11 @@ public class Commands extends JFrame {
 	
 	public static void drawElevation(Graphics2D g2d) {
 		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("Serif", Font.PLAIN, 12));
+		for(double i = refElevation; i>tsLength*-1; i--) {
+	    	g2d.drawString(new Double(refElevation + i).toString(), 10, vOffset + (int) (i*-1*ft2pix)); //Displays reference elevation
+		}
+		
 		g2d.setFont(new Font("Serif", Font.BOLD, 12)); //Font settings
     	g2d.drawString(new Double(refElevation).toString(), 10, vOffset); //Displays reference elevation
     	g2d.drawString(new Double(refElevation - tcLength).toString(), 10, (int) (vOffset + tcLength * ft2pix)); //Displays elevation at bottom of casing

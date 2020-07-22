@@ -37,10 +37,6 @@ public class ShaftExecute{
                 	Commands.previousDepth = Double.parseDouble(tsLen.getText());
                 	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
                 	es.setVisible(true);
-                	//for(int i = 0; i < Commands.truckNumber; i++) {
-                		//FillShaft fs = new FillShaft();
-                    	//fs.setVisible(true);
-                	//}
                 }
             }
         });
