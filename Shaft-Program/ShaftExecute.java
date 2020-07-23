@@ -27,16 +27,16 @@ public class ShaftExecute{
                 myPanel.add(tsLen);
                 myPanel.add(new JLabel("Shaft Diameter (in):"));
                 myPanel.add(sDiam);
-                //myPanel.add(new JLabel("Number of Trucks:"));
-               // myPanel.add(tNum);
 
                 int result = JOptionPane.showConfirmDialog(null, myPanel, 
                          "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
             	
                 if (result == JOptionPane.OK_OPTION) {
+                	System.out.println("Inputs taken");
                 	Commands.previousDepth = Double.parseDouble(tsLen.getText());
                 	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
                 	es.setVisible(true);
+                	System.out.println("EmptyShaft executed");
                 }
             }
         });

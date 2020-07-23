@@ -22,8 +22,9 @@ public class FillShaft extends JFrame {
    	
         if (result == JOptionPane.OK_OPTION) {
 		Commands.vPlaced = Double.parseDouble(volume.getText());
-		//Commands.truckVolumes.add(new Double(vPlaced));
+		Commands.truckVolumes[Commands.truckNumber] = Double.parseDouble(volume.getText());
 		Commands.currentDepth = Double.parseDouble(depth.getText());
+		Commands.depthRecords[Commands.truckNumber] = Double.parseDouble(depth.getText());
         }
         
         JButton b = new JButton("Add truck");
@@ -33,7 +34,7 @@ public class FillShaft extends JFrame {
         add(panel);
         b.setBounds(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix) + 200, Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) - 40, 80, 20);
         b.addActionListener(new Commands.Action());
-        
+                
 	}
 	
 	void drawDiagram(Graphics g) {
@@ -43,18 +44,25 @@ public class FillShaft extends JFrame {
         Commands.drawElevation(g2d);
         Commands.drawLabels(g2d);
         g2d.setColor(Color.LIGHT_GRAY);
-        if(Commands.currentDepth<=Commands.previousDepth-Commands.vol2Length(Commands.vPlaced)){
+        System.out.println("Truck number: " + Commands.truckNumber);
+        System.out.println("Poured volume: " + Commands.truckVolumes[Commands.truckNumber]);
+        System.out.println("Previous depth: " + Commands.pDepth());
+        System.out.println("Theoretical Height: " + (Commands.tsLength - (Commands.pDepth()-Commands.vol2Length(Commands.vPlaced))));
+        if(Commands.currentDepth<=Commands.pDepth()-Commands.vol2Length(Commands.vPlaced)){
+        	System.out.println("C<=H");
             Commands.fillShaft(g2d, Commands.currentDepth);//Actual depth
             g2d.setColor(Color.BLUE);
-            Commands.fillShaft(g2d, Commands.previousDepth-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
+            Commands.fillShaft(g2d, Commands.pDepth()-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
         }
         else {
+        	System.out.println("C>H");
             g2d.setColor(Color.BLUE);
-            Commands.fillShaft(g2d, Commands.previousDepth-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
+            Commands.fillShaft(g2d, Commands.pDepth()-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
             g2d.setColor(Color.LIGHT_GRAY);
             Commands.fillShaft(g2d, Commands.currentDepth);//Actual depth
         }
         Commands.writeValues(g2d);
+        Commands.truckNumber++;
 	}
 	
 	public void paint(Graphics g) {
