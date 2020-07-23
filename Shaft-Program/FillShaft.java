@@ -5,7 +5,7 @@ public class FillShaft extends JFrame {
 	public FillShaft() { //constructor
 		super("Filling Drilled Shaft"); //Titles the drawing window
         getContentPane().setBackground(Color.WHITE); //Makes window background white
-        setSize(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix) + 300, Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) + 20); //Makes drawing window 1000x1000 pixels
+        setSize(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix) + Commands.rOffset, Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) + 20); //Makes drawing window 1000x1000 pixels
         //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Finishes running program when the drawing window is closed
         setLocationRelativeTo(null);
@@ -32,7 +32,7 @@ public class FillShaft extends JFrame {
         panel.add(b);
         panel.setLayout(null);
         add(panel);
-        b.setBounds(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix) + 200, Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) - 40, 80, 20);
+        b.setBounds(Commands.hOffset + (int) (Commands.tcDiameter*Commands.in2pix + 0.6*Commands.rOffset), Commands.vOffset + (int) (Commands.tsLength*Commands.ft2pix) - 40, 80, 20);
         b.addActionListener(new Commands.Action());
                 
 	}

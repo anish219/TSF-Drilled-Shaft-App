@@ -6,7 +6,7 @@ public class EmptyShaft extends JFrame {
 	public EmptyShaft(double refElevation, double tcDiameter, double tcLength, double tsLength, double shaftDiameter) { //constructor
 		super("Empty Drilled Shaft"); //Titles the drawing window
         getContentPane().setBackground(Color.WHITE); //Makes window background white
-        setSize(Commands.hOffset + (int) (tcDiameter*Commands.in2pix) + 300, Commands.vOffset + (int) (tsLength*Commands.ft2pix) + 20); //Makes drawing window 1000x1000 pixels
+        setSize(Commands.hOffset + (int) (tcDiameter*Commands.in2pix) + Commands.rOffset, Commands.vOffset + (int) (tsLength*Commands.ft2pix) + 20); //Makes drawing window 1000x1000 pixels
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Finishes running program when the drawing window is closed
         setLocationRelativeTo(null);
         JButton b = new JButton("Add truck");
@@ -14,7 +14,7 @@ public class EmptyShaft extends JFrame {
         panel.add(b);
         panel.setLayout(null);
         add(panel);
-        b.setBounds(Commands.hOffset + (int) (tcDiameter*Commands.in2pix) + 200, Commands.vOffset + (int) (tsLength*Commands.ft2pix) - 40, 80, 20);
+        b.setBounds(Commands.hOffset + (int) (tcDiameter*Commands.in2pix + 0.6*Commands.rOffset), Commands.vOffset + (int) (tsLength*Commands.ft2pix) - 40, 80, 20);
         b.addActionListener(new Commands.Action());
         
         

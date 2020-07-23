@@ -20,6 +20,8 @@ public class Commands extends JFrame {
 	public static final int in2pix = 3;
 	public static final int hOffset = 50;
 	public static final int vOffset = 50;
+	public static final int rOffset = 300;
+	public static final int textOffset = 25;
 	
 	static class Action implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -70,10 +72,10 @@ public class Commands extends JFrame {
 	public static void drawGround(Graphics2D g2d) {
 		g2d.setColor(new Color(235,179,128));
 		if(refElevation>=0) {
-			g2d.fillRect(0, vOffset + (int) (refElevation*ft2pix), hOffset + (int) (tcDiameter*in2pix) + 300, (int) ((tsLength-refElevation)*ft2pix) + 20);
+			g2d.fillRect(0, vOffset + (int) (refElevation*ft2pix), hOffset + (int) (tcDiameter*in2pix) + rOffset, (int) ((tsLength-refElevation)*ft2pix) + 20);
 		}
 		else { //fix for little bit less than 0
-			g2d.fillRect(0, 0, hOffset + (int) (tcDiameter*in2pix) + 300, vOffset + (int) (tsLength*ft2pix) + 20);
+			g2d.fillRect(0, 0, hOffset + (int) (tcDiameter*in2pix) + rOffset, vOffset + (int) (tsLength*ft2pix) + 20);
 		}
 	}
 	
@@ -108,27 +110,35 @@ public class Commands extends JFrame {
 	
 	public static void drawLabels(Graphics2D g2d) {
 		g2d.setColor(Color.BLACK);
-		g2d.setFont(new Font("Serif", Font.PLAIN, 12)); //Font settings
-    	g2d.drawString("Casing Inner Diameter (in): " + new Double(tcDiameter).toString(), (int) (hOffset + 10 + tcDiameter * in2pix), vOffset + 10);
-    	g2d.drawString("Volume Coefficient (cy/ft): " + new Double(d2vCE(tcDiameter)).toString(), (int) (hOffset + 10 + tcDiameter * in2pix), vOffset + 25);
-    	g2d.drawString("Theoretical Volume (cy): " + new Double(d2vCE(tcDiameter) * tcLength).toString(), (int) (hOffset + 10 + tcDiameter * in2pix), vOffset + 40);
-    	g2d.drawString("Shaft Diameter (in): " + new Double(shaftDiameter).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + 20 + (int) tcLength * ft2pix);
-    	g2d.drawString("Volume Coefficient (cy/ft): " + new Double(d2vCE(shaftDiameter)).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + 35 + (int) tcLength * ft2pix);
-    	g2d.drawString("Theoretical Volume (cy): " + new Double(d2vCE(shaftDiameter) * (tsLength - tcLength)).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + 50 + (int) tcLength * ft2pix);
-    	g2d.drawString("Total Volume (cy): " + new Double(d2vCE(tcDiameter) * tcLength + d2vCE(shaftDiameter) * (tsLength - tcLength)).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix); //Displays all requested details
+    	g2d.drawRect((int) (hOffset + tcDiameter * in2pix) + 15, vOffset - 10, rOffset - 30, 180); //Draws the shaft below the temporary casing
+        g2d.setColor(Color.WHITE);
+    	g2d.fillRect((int) (hOffset + tcDiameter * in2pix) + 15, vOffset - 10, rOffset - 30, 180); //Draws the shaft below the temporary casing
+		g2d.setColor(Color.BLACK);
+    	g2d.setFont(new Font("Serif", Font.PLAIN, 18)); //Font settings
+    	g2d.drawString("Casing Inner Diameter (in): " + new Double(tcDiameter).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10);
+    	g2d.drawString("Volume Coefficient (cy/ft): " + new Double(d2vCE(tcDiameter)).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + textOffset);
+    	g2d.drawString("Theoretical Volume (cy): " + new Double(d2vCE(tcDiameter) * tcLength).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + 2*textOffset);
+    	g2d.drawString("Shaft Diameter (in): " + new Double(shaftDiameter).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + 3*textOffset);
+    	g2d.drawString("Volume Coefficient (cy/ft): " + new Double(d2vCE(shaftDiameter)).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + 4*textOffset);
+    	g2d.drawString("Theoretical Volume (cy): " + new Double(d2vCE(shaftDiameter) * (tsLength - tcLength)).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + 5*textOffset);
+    	g2d.drawString("Total Volume (cy): " + new Double(d2vCE(tcDiameter) * tcLength + d2vCE(shaftDiameter) * (tsLength - tcLength)).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + 6*textOffset); //Displays all requested details
 	}
 	
 	public static void writeValues(Graphics2D g2d) {
 		g2d.setColor(Color.BLACK);
-		g2d.setFont(new Font("Serif", Font.PLAIN, 12)); //Font settings
-    	g2d.drawString("Length Poured (ft.): " + new Double(vol2Length()).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 45);
-    	//g2d.drawString("Theoretical Volume Poured (cy): " + new Double().toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 30);
+		g2d.drawRect((int) (hOffset + tcDiameter * in2pix) + 15, vOffset + 215, rOffset - 30, 80); //Draws the shaft below the temporary casing
+        g2d.setColor(Color.WHITE);
+    	g2d.fillRect((int) (hOffset + tcDiameter * in2pix) + 15, vOffset + 215, rOffset - 30, 80); //Draws the shaft below the temporary casing
+		g2d.setColor(Color.BLACK);
+		g2d.setFont(new Font("Serif", Font.PLAIN, 18)); //Font settings
+    	g2d.drawString("Length Poured (ft.): " + new Double(vol2Length()).toString().substring(0,4), (int) (hOffset + 30 + tcDiameter * in2pix), vOffset + 10 + 9*textOffset);
+    	g2d.drawString("Theoretical Volume Poured (cy): ", (int) ((hOffset + 30 + tcDiameter * in2pix)), vOffset + 10 + 10*textOffset);
     	//Update for multiple use
     	if(Commands.currentDepth>=Commands.previousDepth-Commands.vol2Length()){
-        	g2d.drawString("Acceptable: Yes", hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 15);
+        	g2d.drawString("Acceptable: Yes",(int) ((hOffset + 30 + tcDiameter * in2pix)), vOffset + 10 + 11*textOffset);
     	}
     	else {
-        	g2d.drawString("Acceptable: No", hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 15);
+        	g2d.drawString("Acceptable: No",(int) ((hOffset + 30 + tcDiameter * in2pix)), vOffset + 10 + 11*textOffset);
     	}
 	}
 	
