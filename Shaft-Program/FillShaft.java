@@ -47,17 +47,18 @@ public class FillShaft extends JFrame {
         System.out.println("Truck number: " + Commands.truckNumber);
         System.out.println("Poured volume: " + Commands.truckVolumes[Commands.truckNumber]);
         System.out.println("Previous depth: " + Commands.pDepth());
-        System.out.println("Theoretical Height: " + (Commands.tsLength - (Commands.pDepth()-Commands.vol2Length(Commands.vPlaced))));
-        if(Commands.currentDepth<=Commands.pDepth()-Commands.vol2Length(Commands.vPlaced)){
+        System.out.println("Theoretical Height: " + (Commands.tsLength - (Commands.pDepth()-Commands.vol2Length())));
+        
+        if(Commands.currentDepth<=Commands.pDepth()-Commands.vol2Length()){
         	System.out.println("C<=H");
             Commands.fillShaft(g2d, Commands.currentDepth);//Actual depth
             g2d.setColor(Color.BLUE);
-            Commands.fillShaft(g2d, Commands.pDepth()-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
+            Commands.fillShaft(g2d, Commands.pDepth()-Commands.vol2Length());//Hypothetical depth
         }
         else {
         	System.out.println("C>H");
             g2d.setColor(Color.BLUE);
-            Commands.fillShaft(g2d, Commands.pDepth()-Commands.vol2Length(Commands.vPlaced));//Hypothetical depth
+            Commands.fillShaft(g2d, Commands.pDepth()-Commands.vol2Length());//Hypothetical depth
             g2d.setColor(Color.LIGHT_GRAY);
             Commands.fillShaft(g2d, Commands.currentDepth);//Actual depth
         }

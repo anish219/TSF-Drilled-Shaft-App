@@ -38,18 +38,22 @@ public class Commands extends JFrame {
 		return Math.PI/3 * Math.pow(diameter/72, 2); //diameter (in.), CE (yd^3/ft)
 	}
 	
-	public static double vol2Length(double volume) { //ONLY CHANGE IN LENGTH
+	public static double vol2Length() { //ONLY CHANGE IN LENGTH
 		double shaftVolume = d2vCE(shaftDiameter)*(tsLength-tcLength);
 		double totalVolume = 0;
-		System.out.println("Total volume: " + totalVolume);
 		for(int i = 0; i<=truckNumber; i++) {
 			totalVolume+=truckVolumes[i];
 		}
-		if(totalVolume<=shaftVolume) {//Fix to account for previous pouring
-			return totalVolume/d2vCE(shaftDiameter);
+		System.out.println("Total volume: " + totalVolume);
+		if(totalVolume<=shaftVolume) {//Fix to account for multiple pouring
+			return truckVolumes[truckNumber]/d2vCE(shaftDiameter);
 		}
 		else {
-			return shaftVolume/d2vCE(shaftDiameter) + (totalVolume-shaftVolume)/d2vCE(tcDiameter);
+			double prevTotalVolume = 0;
+			for(int i = 0; i<truckNumber; i++) {
+				prevTotalVolume+=truckVolumes[i];
+			}
+			return (shaftVolume-prevTotalVolume)/d2vCE(shaftDiameter) + (totalVolume-shaftVolume)/d2vCE(tcDiameter); //could have a logic error
 		}
 	}
 	
@@ -117,10 +121,10 @@ public class Commands extends JFrame {
 	public static void writeValues(Graphics2D g2d) {
 		g2d.setColor(Color.BLACK);
 		g2d.setFont(new Font("Serif", Font.PLAIN, 12)); //Font settings
-    	g2d.drawString("Length Poured (ft.): " + new Double(vol2Length(vPlaced)).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 45);
+    	g2d.drawString("Length Poured (ft.): " + new Double(vol2Length()).toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 45);
     	//g2d.drawString("Theoretical Volume Poured (cy): " + new Double().toString(), hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 30);
     	//Update for multiple use
-    	if(Commands.currentDepth>=Commands.previousDepth-Commands.vol2Length(Commands.vPlaced)){
+    	if(Commands.currentDepth>=Commands.previousDepth-Commands.vol2Length()){
         	g2d.drawString("Acceptable: Yes", hOffset + 10 + (int) ((tcDiameter + shaftDiameter)*in2pix/2), vOffset + (int) tsLength * ft2pix - 15);
     	}
     	else {
