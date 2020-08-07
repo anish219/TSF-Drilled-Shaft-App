@@ -28,16 +28,20 @@ public class ShaftExecute{
                 myPanel.add(new JLabel("Shaft Diameter (in):"));
                 myPanel.add(sDiam);
 
-                int result = JOptionPane.showConfirmDialog(null, myPanel, 
-                         "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
-            	
-                if (result == JOptionPane.OK_OPTION) {
+                int result = 2;
+                while(true) {
+                	result = JOptionPane.showConfirmDialog(null, myPanel, 
+                			"Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
                 	System.out.println("Inputs taken");
-                	Commands.previousDepth = Double.parseDouble(tsLen.getText());
-                	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
-                	es.setVisible(true);
-                	System.out.println("EmptyShaft executed");
+                	
+                	if (result == JOptionPane.OK_OPTION && !Commands.inputErrorChecker(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText()))) {
+                		break;
+                	}
                 }
+                Commands.previousDepth = Double.parseDouble(tsLen.getText());
+            	EmptyShaft es = new EmptyShaft(Double.parseDouble(refEl.getText()), Double.parseDouble(tcDiam.getText()), Double.parseDouble(tcLen.getText()), Double.parseDouble(tsLen.getText()), Double.parseDouble(sDiam.getText())); //Creates object of class
+            	es.setVisible(true);
+            	System.out.println("EmptyShaft executed");
             }
         });
 	}

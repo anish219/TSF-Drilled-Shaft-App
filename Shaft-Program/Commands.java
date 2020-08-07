@@ -24,6 +24,7 @@ public class Commands extends JFrame {
 	public static final int vOffset = 50;
 	public static final int rOffset = 300;
 	public static final int textOffset = 25;
+	public static final double volumeThreshold = 0.5;
 	
 	static class Action implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -32,13 +33,53 @@ public class Commands extends JFrame {
 		}
 	}
 	
+	public static boolean input2ErrorChecker(double vol, double depth) {
+		boolean error = false;
+		double prevTotalVolume = 0;
+		for(int i = 0; i<truckNumber; i++) {
+			prevTotalVolume+=truckVolumes[i];
+		}
+		double totalVol = d2vCE(tcDiameter) * tcLength + d2vCE(shaftDiameter) * (tsLength - tcLength);
+		if(vol>totalVol-prevTotalVolume+volumeThreshold) {
+			error = true;
+			JOptionPane.showMessageDialog(new JFrame(), "Volume input will cause overflow. Please enter again.", "Dialog",
+			        JOptionPane.ERROR_MESSAGE);
+		}
+		if(depth>pDepth()) {
+			error = true;
+			JOptionPane.showMessageDialog(new JFrame(), "Entered depth is larger than previously entered depth(s). Please enter again.", "Dialog",
+			        JOptionPane.ERROR_MESSAGE);
+		}
+		return error;
+	}
+	
+	public static boolean inputErrorChecker(double refEl, double tcDiam, double tcLen, double tsLen, double sDiam) {
+		boolean error = false;
+		if(tcDiam<sDiam) {
+			error = true;
+			JOptionPane.showMessageDialog(new JFrame(), "Invalid shaft/casing diameter entered.", "Dialog",
+			        JOptionPane.ERROR_MESSAGE);
+		}
+		if(tcLen>=tsLen) {
+			error = true;
+			JOptionPane.showMessageDialog(new JFrame(), "Invalid shaft/casing length entered.", "Dialog",
+			        JOptionPane.ERROR_MESSAGE);
+		}
+		return error;
+	}
+	
 	public static String round2Digits(double value) {
 		double newValue = Math.round(value*100.0)/100.0;
 		return new Double(newValue).toString();
 	}
 	
 	public static boolean volumeIssueChecker() {
-		return currentDepth>=(pDepth()-vol2Length());
+		boolean noIssue = currentDepth>=(pDepth()-vol2Length());
+		if(!noIssue) {
+			JOptionPane.showMessageDialog(new JFrame(), "There is a volume issue in the shaft.", "Dialog",
+			        JOptionPane.ERROR_MESSAGE);
+		}
+		return noIssue;
 	}
 	
 	public static double pDepth() {

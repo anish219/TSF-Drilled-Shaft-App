@@ -17,15 +17,19 @@ public class FillShaft extends JFrame {
         myPanel.add(volume); //Adds corresponding textbox
         myPanel.add(new JLabel("Depth to Concrete (ft):"));
         myPanel.add(depth);
-        int result = JOptionPane.showConfirmDialog(null, myPanel, 
-                "Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
+        int result = 2;
+        while(true) {
+        	result = JOptionPane.showConfirmDialog(null, myPanel, 
+        			"Please Enter Values", JOptionPane.OK_CANCEL_OPTION);//Closes popup when OK is pressed
    	
-        if (result == JOptionPane.OK_OPTION) {
-		Commands.vPlaced = Double.parseDouble(volume.getText());
+        	if (result == JOptionPane.OK_OPTION && !Commands.input2ErrorChecker(Double.parseDouble(volume.getText()), Double.parseDouble(depth.getText()))) {
+        		break;
+        	}
+        }
+        Commands.vPlaced = Double.parseDouble(volume.getText());
 		Commands.truckVolumes[Commands.truckNumber] = Double.parseDouble(volume.getText());
 		Commands.currentDepth = Double.parseDouble(depth.getText());
 		Commands.depthRecords[Commands.truckNumber] = Double.parseDouble(depth.getText());
-        }
         
         JButton b = new JButton("Add truck");
         JPanel panel = new JPanel();
